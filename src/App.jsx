@@ -3,13 +3,14 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import { AppBar, Box, Toolbar, Typography } from "@mui/material";
+import Searchbar from "./components/SearchBar/Searchbar";
 
 function App() {
   const [count, setCount] = useState(0);
 
   return (
     <>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box display="flex" flexDirection="column" alignItems="center" container>
         <AppBar position="static">
           <Toolbar variant="dense">
             <Typography variant="h6" color="inherit" component="div">
@@ -17,6 +18,7 @@ function App() {
             </Typography>
           </Toolbar>
         </AppBar>
+        <Searchbar />
       </Box>
       <div>
         <a href="https://vite.dev" target="_blank">
