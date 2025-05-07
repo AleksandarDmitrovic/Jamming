@@ -1,0 +1,11 @@
+.searchResults {
+  background: rgba(0,0,0,0.5);
+  border-radius: 10px;
+  padding: 1.5rem;
+  width: 300px;
+  color: #fff;
+}
+
+h2 {
+  margin-top: 0;
+}
