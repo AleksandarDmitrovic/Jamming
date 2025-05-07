@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./App.module.css";
 import SearchResults from "./components/SearchResults/SearchResults";
 import Playlist from "./components/Playlist/Playlist";
@@ -15,6 +15,18 @@ const mockPlaylist = [
 ];
 
 function App() {
+  const [searchResults, setSearchResults] = useState(mockSearchResults);
+  const [playlist, setPlaylist] = useState([]);
+
+  const handleAddTrack = (track) => {
+    if (playlist.includes(track)) return;
+    setPlaylist([...playlist, track]);
+  };
+
+  const handleRemoveTrack = (track) => {
+    setPlaylist(playlist.filter((t) => t.id !== track.id));
+  };
+
   return (
     <div className={styles.app}>
       <h1>
@@ -22,8 +34,12 @@ function App() {
       </h1>
       <SearchBar />
       <div className={styles.main}>
-        <SearchResults tracks={mockSearchResults} />
-        <Playlist tracks={mockPlaylist} />
+        <SearchResults tracks={searchResults} />
+        <Playlist
+          tracks={playlist}
+          handleAddTrack={handleAddTrack}
+          handleRemoveTrack={handleRemoveTrack}
+        />
       </div>
     </div>
   );
