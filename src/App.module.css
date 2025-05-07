@@ -1,0 +1,14 @@
+.app {
+  text-align: center;
+  background: #2d014d;
+  min-height: 100vh;
+}
+
+.jamm {
+  color: #a259f7;
+}
+
+.main {
+  display: flex;
+  justify-content: center;
+}
