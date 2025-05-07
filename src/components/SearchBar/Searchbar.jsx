@@ -1,22 +1,13 @@
-import { Autocomplete, TextField } from "@mui/material";
 import React from "react";
+import styles from "./SearchBar.module.css";
 
-function Searchbar() {
-  const top5Songs = [
-    { label: "Song 1", year: 1994 },
-    { label: "Song 2", year: 1995 },
-    { label: "Song 3", year: 1996 },
-    { label: "Song 4", year: 1997 },
-    { label: "Song 5", year: 1998 },
-  ];
+function SearchBar() {
   return (
-    <Autocomplete
-      disablePortal
-      options={top5Songs}
-      sx={{ width: 300, backgroundColor: "white", marginTop: 2 }}
-      renderInput={(params) => <TextField {...params} label="Songs" />}
-    />
+    <div className={styles.searchBar}>
+      <input placeholder="Enter A Song Title" />
+      <button className={styles.searchButton}>SEARCH</button>
+    </div>
   );
 }
 
-export default Searchbar;
+export default SearchBar;
