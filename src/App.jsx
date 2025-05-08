@@ -4,6 +4,7 @@ import SearchResults from "./components/SearchResults/SearchResults";
 import Playlist from "./components/Playlist/Playlist";
 import SearchBar from "./components/SearchBar/Searchbar";
 import { PlaylistProvider } from "./Context/PlaylistContext";
+import { StyledEngineProvider } from "@mui/material";
 
 // Mock data
 const mockSearchResults = [
@@ -16,18 +17,20 @@ function App() {
   const [searchResults, setSearchResults] = useState(mockSearchResults);
 
   return (
-    <PlaylistProvider>
-      <div className={styles.app}>
-        <h1>
-          Ja<span className={styles.jamm}>mmm</span>ing
-        </h1>
-        <SearchBar />
-        <div className={styles.main}>
-          <SearchResults tracks={searchResults} />
-          <Playlist />
+    <StyledEngineProvider injectFirst>
+      <PlaylistProvider>
+        <div className={styles.app}>
+          <h1>
+            Ja<span className={styles.jamm}>mmm</span>ing
+          </h1>
+          <SearchBar />
+          <div className={styles.main}>
+            <SearchResults tracks={searchResults} />
+            <Playlist />
+          </div>
         </div>
-      </div>
-    </PlaylistProvider>
+      </PlaylistProvider>
+    </StyledEngineProvider>
   );
 }
 
