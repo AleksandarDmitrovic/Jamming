@@ -3,6 +3,7 @@ import styles from "./App.module.css";
 import SearchResults from "./components/SearchResults/SearchResults";
 import Playlist from "./components/Playlist/Playlist";
 import SearchBar from "./components/SearchBar/Searchbar";
+import { PlaylistProvider } from "./Context/PlaylistContext";
 
 // Mock data
 const mockSearchResults = [
@@ -10,38 +11,23 @@ const mockSearchResults = [
   { id: 2, name: "Song B", artist: "Artist B", album: "Album B" },
   { id: 3, name: "Song C", artist: "Artist C", album: "Album C" },
 ];
-const mockPlaylist = [
-  { id: 4, name: "Song D", artist: "Artist D", album: "Album D" },
-];
 
 function App() {
   const [searchResults, setSearchResults] = useState(mockSearchResults);
-  const [playlist, setPlaylist] = useState([]);
-
-  const handleAddTrack = (track) => {
-    if (playlist.includes(track)) return;
-    setPlaylist([...playlist, track]);
-  };
-
-  const handleRemoveTrack = (track) => {
-    setPlaylist(playlist.filter((t) => t.id !== track.id));
-  };
 
   return (
-    <div className={styles.app}>
-      <h1>
-        Ja<span className={styles.jamm}>mmm</span>ing
-      </h1>
-      <SearchBar />
-      <div className={styles.main}>
-        <SearchResults tracks={searchResults} />
-        <Playlist
-          tracks={playlist}
-          handleAddTrack={handleAddTrack}
-          handleRemoveTrack={handleRemoveTrack}
-        />
+    <PlaylistProvider>
+      <div className={styles.app}>
+        <h1>
+          Ja<span className={styles.jamm}>mmm</span>ing
+        </h1>
+        <SearchBar />
+        <div className={styles.main}>
+          <SearchResults tracks={searchResults} />
+          <Playlist />
+        </div>
       </div>
-    </div>
+    </PlaylistProvider>
   );
 }
 
