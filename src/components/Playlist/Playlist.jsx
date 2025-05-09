@@ -17,7 +17,6 @@ function Playlist() {
     <div className={styles.playlist}>
       <h2>Create Playlist</h2>
       <TextField
-        id="standard-basic"
         label="Playlist Name"
         variant="standard"
         className={styles.playlistInput}
