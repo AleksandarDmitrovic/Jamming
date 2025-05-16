@@ -5,7 +5,12 @@ import Playlist from "./components/Playlist/Playlist";
 import SearchBar from "./components/SearchBar/Searchbar";
 import { PlaylistProvider } from "./Context/PlaylistContext";
 import { StyledEngineProvider } from "@mui/material";
-import { base64encode, generateRandomString, sha256 } from "./Helpers/helpers";
+import {
+  base64encode,
+  generateRandomString,
+  getSpotifyAccessToken,
+  sha256,
+} from "./Helpers/helpers";
 
 // Mock data
 const mockSearchResults = [
@@ -16,39 +21,51 @@ const mockSearchResults = [
 
 function App() {
   const [searchResults, setSearchResults] = useState(mockSearchResults);
-  const [codeChallenge, setCodeChallenge] = useState("");
+  const [accessTokenData, setAccessTokenData] = useState(null);
 
   useEffect(() => {
-    const generateCodeChallenge = async () => {
-      const verifier = generateRandomString(64);
-      const hashed = await sha256(verifier);
-      const challenge = base64encode(hashed);
-      setCodeChallenge(challenge);
-      window.localStorage.setItem("code_verifier", verifier);
-    };
-    generateCodeChallenge();
-
-    const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
-    const redirectUri = "http://127.0.0.1:5173/callback";
-
-    const scope = "user-read-private user-read-email";
-    const authUrl = new URL("https://accounts.spotify.com/authorize");
-
-    const params = {
-      response_type: "code",
-      client_id: clientId,
-      scope,
-      code_challenge_method: "S256",
-      code_challenge: codeChallenge,
-      redirect_uri: redirectUri,
-    };
     const urlParams = new URLSearchParams(window.location.search);
-    let code = urlParams.get("code");
+    const code = urlParams.get("code");
     if (!code) {
-      authUrl.search = new URLSearchParams(params).toString();
-      window.location.href = authUrl.toString();
+      const requestUserAuthorization = async () => {
+        const verifier = generateRandomString(64);
+        window.localStorage.setItem("code_verifier", verifier);
+        const hashed = await sha256(verifier);
+        const challenge = base64encode(hashed);
+        window.localStorage.setItem("code_challenge", challenge);
+
+        const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
+        const redirectUri = import.meta.env.VITE_SPOTIFY_REDIRECT_URI;
+
+        const scope = "user-read-private user-read-email";
+        const authUrl = new URL("https://accounts.spotify.com/authorize");
+
+        const params = {
+          response_type: "code",
+          client_id: clientId,
+          scope,
+          code_challenge_method: "S256",
+          code_challenge: challenge,
+          redirect_uri: redirectUri,
+        };
+        authUrl.search = new URLSearchParams(params).toString();
+        window.location.href = authUrl.toString();
+      };
+      requestUserAuthorization();
+    } else if (!accessTokenData) {
+      const codeVerifier = window.localStorage.getItem("code_verifier");
+      const getAccessToken = async () => {
+        const response = await getSpotifyAccessToken(code, codeVerifier);
+        console.log("response :", response);
+        if (response.access_token) {
+          setAccessTokenData(response);
+          window.history.replaceState({}, document.title, "/");
+        }
+      };
+      getAccessToken();
+      console.log(accessTokenData);
     }
-  });
+  }, []);
 
   return (
     <StyledEngineProvider injectFirst>
