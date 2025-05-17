@@ -11,9 +11,9 @@ function Track({ track, isRemoval }) {
   return (
     <div className={styles.track}>
       <div>
-        <div className={styles.trackName}>{track.name}</div>
+        <div className={styles.trackName}>{track?.name}</div>
         <div className={styles.trackInfo}>
-          {track.artist} | {track.album}
+          {track?.artists?.[0].name} | {track?.album?.name}
         </div>
       </div>
       <IconButton>

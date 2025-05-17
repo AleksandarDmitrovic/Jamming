@@ -36,8 +36,4 @@ function playlistReducer(playlist, action) {
   }
 }
 
-const initialplaylist = [
-  { id: 4, uri: "", name: "Song D", artist: "Artist D", album: "Album D" },
-];
-
-// https://open.spotify.com/track/6o4lFpp8OAFhBqGQbWyAob?si=44a7cc36123c408c
+const initialplaylist = [];
