@@ -12,16 +12,10 @@ import {
   sha256,
 } from "./Helpers/helpers";
 
-// Mock data
-const mockSearchResults = [
-  { id: 1, name: "Song A", artist: "Artist A", album: "Album A" },
-  { id: 2, name: "Song B", artist: "Artist B", album: "Album B" },
-  { id: 3, name: "Song C", artist: "Artist C", album: "Album C" },
-];
-
 function App() {
-  const [searchResults, setSearchResults] = useState(mockSearchResults);
+  const [searchResults, setSearchResults] = useState([]);
   const [accessTokenData, setAccessTokenData] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -72,9 +66,14 @@ function App() {
       <PlaylistProvider>
         <div className={styles.app}>
           <h1>
-            Ja<span className={styles.jamm}>mmm</span>ing
+            Ja<span className={styles.jamm}>mm</span>ing
           </h1>
-          <SearchBar />
+          <SearchBar
+            searchQuery={searchQuery}
+            onChange={setSearchQuery}
+            accessTokenData={accessTokenData}
+            setSearchResults={setSearchResults}
+          />
           <div className={styles.main}>
             <SearchResults tracks={searchResults} />
             <Playlist />
