@@ -4,7 +4,11 @@ import TrackList from "../TrackList/TrackList";
 import { usePlaylist } from "../../Context/PlaylistContext";
 import { TextField } from "@mui/material";
 import { useState } from "react";
-import { createPlaylist, getSpotifyUserInfo } from "../../Helpers/helpers";
+import {
+  addTracksToPlaylist,
+  createPlaylist,
+  getSpotifyUserInfo,
+} from "../../Helpers/helpers";
 
 function Playlist({ accessTokenData }) {
   const [playlistName, setPlaylistName] = useState("");
@@ -16,17 +20,22 @@ function Playlist({ accessTokenData }) {
 
   const handleSavePlaylist = async () => {
     if (!playlistName || !playlist.length) return;
-    console.log("accessTokenData :", accessTokenData);
+
     const spotifyUserInfo = await getSpotifyUserInfo(
       accessTokenData.access_token
     );
-    console.log("spotifyUserInfo :", spotifyUserInfo);
+
     const playlistData = await createPlaylist(
       accessTokenData.access_token,
       playlistName,
       spotifyUserInfo.id
     );
-    console.log("playlistData :", playlistData);
+
+    await addTracksToPlaylist(
+      accessTokenData.access_token,
+      playlistData.id,
+      playlist.map((track) => track.uri)
+    );
   };
 
   return (
