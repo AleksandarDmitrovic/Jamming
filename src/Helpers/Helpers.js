@@ -60,3 +60,19 @@ export const searchSpotify = async (token, query) => {
 
   return response;
 };
+
+export const getSpotifyUserInfo = async (token) => {
+  const url = "https://api.spotify.com/v1/me";
+  const payload = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  const body = await fetch(url, payload);
+  const response = await body.json();
+
+  return response;
+};
