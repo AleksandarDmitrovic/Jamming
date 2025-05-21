@@ -76,7 +76,7 @@ function App() {
           />
           <div className={styles.main}>
             <SearchResults tracks={searchResults} />
-            <Playlist />
+            <Playlist accessTokenData={accessTokenData} />
           </div>
         </div>
       </PlaylistProvider>
