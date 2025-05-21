@@ -76,3 +76,24 @@ export const getSpotifyUserInfo = async (token) => {
 
   return response;
 };
+
+export const createPlaylist = async (token, name, userId) => {
+  const url = `https://api.spotify.com/v1/users/${userId}/playlists`;
+  const payload = {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name,
+      description: "Created by Jamming",
+      public: false,
+    }),
+  };
+
+  const body = await fetch(url, payload);
+  const response = await body.json();
+
+  return response;
+};
