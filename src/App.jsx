@@ -17,7 +17,7 @@ function App() {
   const [accessTokenData, setAccessTokenData] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
 
-  useEffect(() => {
+  const checkAccessToken = async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
     if (!code) {
@@ -49,18 +49,17 @@ function App() {
       requestUserAuthorization();
     } else if (!accessTokenData) {
       const codeVerifier = window.localStorage.getItem("code_verifier");
-      const getAccessToken = async () => {
-        const response = await getSpotifyAccessToken(code, codeVerifier);
-        console.log("response :", response);
-        if (response.access_token) {
-          setAccessTokenData(response);
-          window.history.replaceState({}, document.title, "/");
-        }
-      };
-      getAccessToken();
-      console.log(accessTokenData);
+
+      const response = await getSpotifyAccessToken(code, codeVerifier);
+      console.log("response :", response);
+      if (response.access_token) {
+        setAccessTokenData(response);
+        window.history.replaceState({}, document.title, "/");
+      }
+
+      return response.access_token;
     }
-  }, []);
+  };
 
   return (
     <StyledEngineProvider injectFirst>
@@ -74,6 +73,7 @@ function App() {
             onChange={setSearchQuery}
             accessTokenData={accessTokenData}
             setSearchResults={setSearchResults}
+            checkAccessToken={checkAccessToken}
           />
           <div className={styles.main}>
             <SearchResults tracks={searchResults} />
