@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "./App.module.css";
 import SearchResults from "./components/SearchResults/SearchResults";
 import Playlist from "./components/Playlist/Playlist";
@@ -53,11 +53,12 @@ function App() {
       const response = await getSpotifyAccessToken(code, codeVerifier);
       console.log("response :", response);
       if (response.access_token) {
-        setAccessTokenData(response);
+        const expireTime = Date.now() + 3600 * 1000;
+        setAccessTokenData({ ...response, expireTime });
         window.history.replaceState({}, document.title, "/");
       }
 
-      return response.access_token;
+      return response;
     }
   };
 

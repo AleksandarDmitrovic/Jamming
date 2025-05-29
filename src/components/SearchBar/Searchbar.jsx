@@ -14,16 +14,16 @@ function SearchBar({
   };
 
   const handleSearch = async () => {
-    let token;
-    if (!accessTokenData) {
-      token = await checkAccessToken();
+    let firstTokenData;
+    if (!accessTokenData || accessTokenData.expireTime < Date.now()) {
+      firstTokenData = await checkAccessToken();
     }
-    console.log("token :", token);
+
     const response = await searchSpotify(
-      token ?? accessTokenData?.access_token,
+      firstTokenData?.access_token ?? accessTokenData?.access_token,
       searchQuery
     );
-    console.log("response :", response);
+
     setSearchResults(response.tracks.items);
   };
 
