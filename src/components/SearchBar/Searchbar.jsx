@@ -7,15 +7,20 @@ function SearchBar({
   searchQuery,
   accessTokenData,
   setSearchResults,
+  checkAccessToken,
 }) {
   const handleChange = (event) => {
     onChange(event.target.value);
   };
 
   const handleSearch = async () => {
-    if (!accessTokenData) return;
+    let token;
+    if (!accessTokenData) {
+      token = await checkAccessToken();
+    }
+    console.log("token :", token);
     const response = await searchSpotify(
-      accessTokenData.access_token,
+      token ?? accessTokenData?.access_token,
       searchQuery
     );
     console.log("response :", response);
