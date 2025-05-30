@@ -10,7 +10,7 @@ import {
   generateRandomString,
   getSpotifyAccessToken,
   sha256,
-} from "./Helpers/helpers";
+} from "./Helpers/Helpers";
 
 function App() {
   const [searchResults, setSearchResults] = useState([]);

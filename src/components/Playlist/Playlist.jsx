@@ -8,7 +8,7 @@ import {
   addTracksToPlaylist,
   createPlaylist,
   getSpotifyUserInfo,
-} from "../../Helpers/helpers";
+} from "../../Helpers/Helpers";
 
 function Playlist({ accessTokenData }) {
   const [playlistName, setPlaylistName] = useState("");

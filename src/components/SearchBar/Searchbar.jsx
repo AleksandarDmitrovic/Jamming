@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./SearchBar.module.css";
-import { searchSpotify } from "../../Helpers/helpers";
+import { searchSpotify } from "../../Helpers/Helpers";
 
 function SearchBar({
   onChange,
