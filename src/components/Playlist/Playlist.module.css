@@ -23,6 +23,9 @@
   :global(.MuiInput-underline:after) {
     border-bottom-color: #a259f7;
   }
+  :global(.MuiInputLabel-root) {
+    padding-left: 12px;
+  }
 }
 
 .saveButton {
